@@ -1,0 +1,24 @@
+{
+  "extends": "@angular-eslint/recommended",
+  "parserOptions": {
+    "project": ["tsconfig.json"]
+  },
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "error",
+      {
+        "type": "element",
+        "prefix": "app",
+        "style": "kebab-case"
+      }
+    ],
+    "@angular-eslint/directive-selector": [
+      "error",
+      {
+        "type": "attribute",
+        "prefix": "app",
+        "style": "camelCase"
+      }
+    ]
+  }
+}
