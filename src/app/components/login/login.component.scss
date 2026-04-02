@@ -1,0 +1,225 @@
+// Hospital Healthy Design System
+// Primary: Soft Blue - oklch(0.52 0.14 240)
+// Secondary: Green - oklch(0.54 0.16 150)
+
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: oklch(0.96 0.02 240);
+  padding: clamp(1rem, 5vw, 2rem);
+}
+
+.login-card {
+  background: oklch(1 0 0);
+  padding: clamp(2rem, 8vw, 3rem);
+  border-radius: 12px;
+  box-shadow:
+    0 1px 3px oklch(0 0 0 / 0.1),
+    0 8px 24px oklch(0.4 0.08 240 / 0.12);
+  width: 100%;
+  max-width: clamp(280px, 90vw, 420px);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: clamp(1.5rem, 6vw, 2rem);
+
+  h1 {
+    font-size: clamp(1.5rem, 6vw, 1.75rem);
+    font-weight: 700;
+    color: oklch(0.35 0.08 240);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    font-size: clamp(0.875rem, 4vw, 0.9375rem);
+    color: oklch(0.55 0.04 240);
+    font-weight: 400;
+  }
+}
+
+.form-group {
+  margin-bottom: clamp(1rem, 4vw, 1.25rem);
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: oklch(0.4 0.06 240);
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+
+  input {
+    width: 100%;
+    padding: clamp(0.75rem, 3vw, 0.875rem) clamp(1rem, 4vw, 1.125rem);
+    border: 1.5px solid oklch(0.85 0.03 240);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+    box-sizing: border-box;
+    background: oklch(1 0 0);
+    color: oklch(0.3 0.05 240);
+
+    &:focus {
+      outline: none;
+      border-color: oklch(0.52 0.14 240);
+      box-shadow: 0 0 0 3px oklch(0.52 0.14 240 / 0.15);
+    }
+
+    &::placeholder {
+      color: oklch(0.7 0.03 240);
+    }
+
+    &.is-invalid {
+      border-color: oklch(0.6 0.18 25);
+
+      &:focus {
+        box-shadow: 0 0 0 3px oklch(0.6 0.18 25 / 0.15);
+      }
+    }
+  }
+
+  .invalid-feedback {
+    color: oklch(0.6 0.18 25);
+    font-size: 0.75rem;
+    margin-top: 0.375rem;
+    font-weight: 500;
+  }
+}
+
+.alert {
+  padding: clamp(0.75rem, 3vw, 0.875rem) clamp(1rem, 4vw, 1.125rem);
+  border-radius: 8px;
+  margin-bottom: 1.25rem;
+  border-left: 3px solid;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &.alert-error {
+    background: oklch(0.97 0.04 25);
+    color: oklch(0.5 0.18 25);
+    border-color: oklch(0.6 0.18 25);
+  }
+}
+
+.btn-login {
+  width: 100%;
+  padding: clamp(0.875rem, 4vw, 1rem);
+  background: oklch(0.52 0.14 240);
+  color: oklch(1 0 0);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+  margin-top: 0.5rem;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px oklch(0.52 0.14 240 / 0.3);
+    background: oklch(0.48 0.14 240);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &.btn-register {
+    background: oklch(0.54 0.16 150);
+
+    &:hover:not(:disabled) {
+      box-shadow: 0 4px 12px oklch(0.54 0.16 150 / 0.3);
+      background: oklch(0.5 0.16 150);
+    }
+  }
+}
+
+.form-footer {
+  text-align: center;
+  margin-top: clamp(1.25rem, 5vw, 1.5rem);
+  padding-top: clamp(1.25rem, 5vw, 1.5rem);
+  border-top: 1px solid oklch(0.9 0.02 240);
+
+  p {
+    color: oklch(0.55 0.04 240);
+    font-size: 0.875rem;
+    margin: 0 0 0.75rem 0;
+    font-weight: 400;
+  }
+
+  .btn-link {
+    background: none;
+    border: none;
+    color: oklch(0.52 0.14 240);
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+
+    &:hover {
+      background: oklch(0.52 0.14 240 / 0.1);
+      color: oklch(0.48 0.14 240);
+    }
+
+    &:active {
+      background: oklch(0.52 0.14 240 / 0.15);
+    }
+  }
+}
+
+.default-credentials {
+  margin-top: clamp(1.25rem, 5vw, 1.5rem);
+  padding: clamp(1rem, 4vw, 1.125rem);
+  background: oklch(0.97 0.02 240);
+  border-radius: 8px;
+  font-size: 0.8125rem;
+
+  h4 {
+    color: oklch(0.4 0.06 240);
+    margin-bottom: 0.75rem;
+    margin-top: 0;
+    font-weight: 600;
+    font-size: 0.8125rem;
+  }
+
+  .credential-item {
+    color: oklch(0.55 0.04 240);
+    margin: 0.375rem 0;
+    font-weight: 400;
+
+    code {
+      background: oklch(0.93 0.02 240);
+      padding: 0.125rem 0.375rem;
+      border-radius: 4px;
+      font-family: "SF Mono", "Monaco", "Consolas", monospace;
+      margin-left: 0.375rem;
+      font-size: 0.75rem;
+      color: oklch(0.45 0.06 240);
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.5rem;
+  }
+}

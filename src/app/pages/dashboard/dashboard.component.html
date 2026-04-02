@@ -1,0 +1,32 @@
+<div class="dashboard-container">
+  <div class="dashboard-card">
+    <div class="dashboard-header">
+      <h1>🎉 Welcome, {{ username }}!</h1>
+      <p>You have successfully logged in.</p>
+    </div>
+
+    <div class="user-info">
+      <div class="info-item">
+        <strong>Username:</strong>
+        <span>{{ username }}</span>
+      </div>
+      <div class="info-item">
+        <strong>Role:</strong>
+        <span class="role-badge" [class.role-admin]="role === 'ADMIN'" [class.role-user]="role === 'USER'">
+          {{ role }}
+        </span>
+      </div>
+    </div>
+
+    <div class="dashboard-actions">
+      <button class="btn-logout" (click)="onLogout()">
+        🚪 Logout
+      </button>
+    </div>
+
+    <div class="navigation-links">
+      <a routerLink="/" class="nav-link">🏠 Home</a>
+      <a *ngIf="role === 'ADMIN'" routerLink="/admin" class="nav-link">⚙️ Admin Panel</a>
+    </div>
+  </div>
+</div>

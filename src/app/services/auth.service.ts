@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpService } from './http.service';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { BehaviorSubject, Observable, tap } from "rxjs";
+import { environment } from "../../environments/environment";
 
 export interface LoginRequest {
   username: string;
@@ -9,38 +10,82 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   token: string;
-  refreshToken: string;
-  user: UserInfo;
-}
-
-export interface UserInfo {
-  id: number;
   username: string;
-  email: string;
-  roles: string[];
+  role: string;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthService {
-  private readonly AUTH_ENDPOINT = '/auth';
+  private readonly API_URL = environment.apiUrl;
+  private readonly TOKEN_KEY = "auth_token";
+  private readonly USER_KEY = "user_info";
 
-  constructor(private http: HttpService) {}
+  private currentUserSubject = new BehaviorSubject<LoginResponse | null>(null);
+  public currentUser$ = this.currentUserSubject.asObservable();
+
+  constructor(private http: HttpClient) {
+    this.loadUserFromStorage();
+  }
+
+  private loadUserFromStorage(): void {
+    const token = localStorage.getItem(this.TOKEN_KEY);
+    const userInfo = localStorage.getItem(this.USER_KEY);
+
+    if (token && userInfo) {
+      this.currentUserSubject.next(JSON.parse(userInfo));
+    }
+  }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.AUTH_ENDPOINT}/login`, credentials);
+    const url = `${this.API_URL}/api/auth/login`;
+    console.log("🔐 Attempting login with:", credentials);
+    console.log("📡 API URL:", url);
+
+    return this.http.post<LoginResponse>(url, credentials).pipe(
+      tap((response) => {
+        console.log("✅ Login successful:", response);
+        localStorage.setItem(this.TOKEN_KEY, response.token);
+        localStorage.setItem(this.USER_KEY, JSON.stringify(response));
+        this.currentUserSubject.next(response);
+      }),
+    );
   }
 
-  logout(): Observable<void> {
-    return this.http.post<void>(`${this.AUTH_ENDPOINT}/logout`, {});
+  logout(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem(this.USER_KEY);
+    this.currentUserSubject.next(null);
   }
 
-  refreshToken(): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.AUTH_ENDPOINT}/refresh-token`, {});
+  getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  getCurrentUser(): Observable<UserInfo> {
-    return this.http.get<UserInfo>(`${this.AUTH_ENDPOINT}/me`);
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
+
+  getUsername(): string | null {
+    const userInfo = localStorage.getItem(this.USER_KEY);
+    if (userInfo) {
+      const user = JSON.parse(userInfo);
+      return user.username;
+    }
+    return null;
+  }
+
+  getRole(): string | null {
+    const userInfo = localStorage.getItem(this.USER_KEY);
+    if (userInfo) {
+      const user = JSON.parse(userInfo);
+      return user.role;
+    }
+    return null;
+  }
+
+  isAdmin(): boolean {
+    return this.getRole() === "ADMIN";
   }
 }
