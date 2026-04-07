@@ -28,7 +28,7 @@ export interface UpdateUserRequest {
   providedIn: "root",
 })
 export class UserService {
-  private readonly USER_ENDPOINT = "/users";
+  private readonly USER_ENDPOINT = "/api/users";
 
   constructor(private http: HttpService) {}
 
