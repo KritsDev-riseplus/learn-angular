@@ -1,37 +1,54 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-export interface IRequestOptions {
-  headers?: any;
-  params?: HttpParams;
-}
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Observable } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class HttpService {
-  private baseUrl = '';
+  private baseUrl = "";
 
   constructor(private http: HttpClient) {}
 
-  get<T>(endpoint: string, options?: IRequestOptions): Observable<T> {
-    return this.http.get<T>(`${this.baseUrl}${endpoint}`, options);
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem("auth_token");
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+
+    if (token) {
+      return headers.set("Authorization", `Bearer ${token}`);
+    }
+    return headers;
   }
 
-  post<T>(endpoint: string, body: any, options?: IRequestOptions): Observable<T> {
-    return this.http.post<T>(`${this.baseUrl}${endpoint}`, body, options);
+  get<T>(endpoint: string): Observable<T> {
+    return this.http.get<T>(`${this.baseUrl}${endpoint}`, {
+      headers: this.getHeaders(),
+    });
   }
 
-  put<T>(endpoint: string, body: any, options?: IRequestOptions): Observable<T> {
-    return this.http.put<T>(`${this.baseUrl}${endpoint}`, body, options);
+  post<T>(endpoint: string, body: any): Observable<T> {
+    return this.http.post<T>(`${this.baseUrl}${endpoint}`, body, {
+      headers: this.getHeaders(),
+    });
   }
 
-  patch<T>(endpoint: string, body: any, options?: IRequestOptions): Observable<T> {
-    return this.http.patch<T>(`${this.baseUrl}${endpoint}`, body, options);
+  put<T>(endpoint: string, body: any): Observable<T> {
+    return this.http.put<T>(`${this.baseUrl}${endpoint}`, body, {
+      headers: this.getHeaders(),
+    });
   }
 
-  delete<T>(endpoint: string, options?: IRequestOptions): Observable<T> {
-    return this.http.delete<T>(`${this.baseUrl}${endpoint}`, options);
+  patch<T>(endpoint: string, body: any): Observable<T> {
+    return this.http.patch<T>(`${this.baseUrl}${endpoint}`, body, {
+      headers: this.getHeaders(),
+    });
+  }
+
+  delete<T>(endpoint: string): Observable<T> {
+    return this.http.delete<T>(`${this.baseUrl}${endpoint}`, {
+      headers: this.getHeaders(),
+    });
   }
 }

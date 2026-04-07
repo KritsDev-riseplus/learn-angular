@@ -1,39 +1,34 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpService } from './http.service';
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { HttpService } from "./http.service";
 
 export interface User {
   id: number;
   username: string;
   email: string;
-  firstName?: string;
-  lastName?: string;
-  roles: string[];
-  createdAt?: Date;
-  updatedAt?: Date;
+  fullName?: string;
+  roleName: string;
 }
 
 export interface CreateUserRequest {
   username: string;
-  email: string;
   password: string;
-  firstName?: string;
-  lastName?: string;
-  roles?: string[];
+  email: string;
+  fullName?: string;
+  roleName: string;
 }
 
 export interface UpdateUserRequest {
   email?: string;
-  firstName?: string;
-  lastName?: string;
-  roles?: string[];
+  fullName?: string;
+  roleName?: string;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class UserService {
-  private readonly USER_ENDPOINT = '/users';
+  private readonly USER_ENDPOINT = "/users";
 
   constructor(private http: HttpService) {}
 
