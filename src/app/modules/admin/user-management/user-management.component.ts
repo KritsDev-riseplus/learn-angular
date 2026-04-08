@@ -32,6 +32,16 @@ export class UserManagementComponent implements OnInit {
   paymentEmailLoading = false;
   paymentEmailStatus: Record<number, { success?: string; error?: string }> = {};
 
+  // Application review email
+  appReviewEmailLoading = false;
+  appReviewEmailStatus: Record<number, { success?: string; error?: string }> =
+    {};
+
+  // Application confirmation email
+  appConfirmEmailLoading = false;
+  appConfirmEmailStatus: Record<number, { success?: string; error?: string }> =
+    {};
+
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
@@ -162,6 +172,57 @@ export class UserManagementComponent implements OnInit {
         };
         this.paymentEmailLoading = false;
         console.error("Error sending payment email:", err);
+      },
+    });
+  }
+
+  sendApplicationReviewEmail(userId: number): void {
+    this.appReviewEmailLoading = true;
+    this.appReviewEmailStatus[userId] = {};
+
+    this.userService.sendApplicationReviewEmail(userId).subscribe({
+      next: (response: any) => {
+        this.appReviewEmailStatus[userId] = {
+          success: response?.message || "Application review email sent!",
+        };
+        this.appReviewEmailLoading = false;
+        setTimeout(() => {
+          delete this.appReviewEmailStatus[userId];
+        }, 3000);
+      },
+      error: (err: any) => {
+        this.appReviewEmailStatus[userId] = {
+          error:
+            err?.error?.message || "Failed to send application review email",
+        };
+        this.appReviewEmailLoading = false;
+        console.error("Error sending application review email:", err);
+      },
+    });
+  }
+
+  sendApplicationConfirmationEmail(userId: number): void {
+    this.appConfirmEmailLoading = true;
+    this.appConfirmEmailStatus[userId] = {};
+
+    this.userService.sendApplicationConfirmationEmail(userId).subscribe({
+      next: (response: any) => {
+        this.appConfirmEmailStatus[userId] = {
+          success: response?.message || "Application confirmation email sent!",
+        };
+        this.appConfirmEmailLoading = false;
+        setTimeout(() => {
+          delete this.appConfirmEmailStatus[userId];
+        }, 3000);
+      },
+      error: (err: any) => {
+        this.appConfirmEmailStatus[userId] = {
+          error:
+            err?.error?.message ||
+            "Failed to send application confirmation email",
+        };
+        this.appConfirmEmailLoading = false;
+        console.error("Error sending application confirmation email:", err);
       },
     });
   }

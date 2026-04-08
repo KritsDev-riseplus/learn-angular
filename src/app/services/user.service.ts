@@ -65,4 +65,18 @@ export class UserService {
       {},
     );
   }
+
+  sendApplicationReviewEmail(userId: number): Observable<any> {
+    return this.http.post<any>(
+      `${this.USER_ENDPOINT}/${userId}/application-review-email`,
+      {},
+    );
+  }
+
+  sendApplicationConfirmationEmail(userId: number): Observable<any> {
+    return this.http.post<any>(
+      `${this.USER_ENDPOINT}/${userId}/application-confirmation-email`,
+      {},
+    );
+  }
 }

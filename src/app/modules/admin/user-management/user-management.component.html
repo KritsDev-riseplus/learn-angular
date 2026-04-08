@@ -38,6 +38,40 @@
             class="error-inline"
             >{{ paymentEmailStatus[user.id].error }}</span
           >
+          <button
+            class="btn-app-review"
+            (click)="sendApplicationReviewEmail(user.id)"
+            [disabled]="appReviewEmailLoading"
+          >
+            📄 แจ้งคำขอใหม่
+          </button>
+          <span
+            *ngIf="appReviewEmailStatus[user.id]?.success"
+            class="success-inline"
+            >{{ appReviewEmailStatus[user.id].success }}</span
+          >
+          <span
+            *ngIf="appReviewEmailStatus[user.id]?.error"
+            class="error-inline"
+            >{{ appReviewEmailStatus[user.id].error }}</span
+          >
+          <button
+            class="btn-app-confirm"
+            (click)="sendApplicationConfirmationEmail(user.id)"
+            [disabled]="appConfirmEmailLoading"
+          >
+            ✍️ ยืนยันตัวตน
+          </button>
+          <span
+            *ngIf="appConfirmEmailStatus[user.id]?.success"
+            class="success-inline"
+            >{{ appConfirmEmailStatus[user.id].success }}</span
+          >
+          <span
+            *ngIf="appConfirmEmailStatus[user.id]?.error"
+            class="error-inline"
+            >{{ appConfirmEmailStatus[user.id].error }}</span
+          >
           <button class="btn-edit" (click)="openEditDialog(user)">Edit</button>
           <button class="btn-delete" (click)="deleteUser(user.id)">
             Delete
