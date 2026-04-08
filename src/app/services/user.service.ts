@@ -51,4 +51,18 @@ export class UserService {
   deleteUser(id: number): Observable<void> {
     return this.http.delete<void>(`${this.USER_ENDPOINT}/${id}`);
   }
+
+  sendEmail(userId: number, subject: string, content: string): Observable<any> {
+    return this.http.post<any>(`${this.USER_ENDPOINT}/${userId}/email`, {
+      subject,
+      content,
+    });
+  }
+
+  sendPaymentEmail(userId: number): Observable<any> {
+    return this.http.post<any>(
+      `${this.USER_ENDPOINT}/${userId}/payment-email`,
+      {},
+    );
+  }
 }
