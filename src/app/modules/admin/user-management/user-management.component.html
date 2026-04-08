@@ -106,6 +106,22 @@
             class="error-inline"
             >{{ signingCompletedStatus[user.id].error }}</span
           >
+          <button
+            class="btn-cert-email"
+            (click)="sendCertEmail(user.id)"
+            [disabled]="certEmailLoading"
+            title="TDID : รายการคำขอใบรับรองอิเล็กทรอนิกส์ (เสร็จสิ้น)"
+          >
+            📧 ใบรับรองอิเล็กทรอนิกส์
+          </button>
+          <span
+            *ngIf="certEmailStatus[user.id]?.success"
+            class="success-inline"
+            >{{ certEmailStatus[user.id].success }}</span
+          >
+          <span *ngIf="certEmailStatus[user.id]?.error" class="error-inline">{{
+            certEmailStatus[user.id].error
+          }}</span>
           <button class="btn-edit" (click)="openEditDialog(user)">Edit</button>
           <button class="btn-delete" (click)="deleteUser(user.id)">
             Delete

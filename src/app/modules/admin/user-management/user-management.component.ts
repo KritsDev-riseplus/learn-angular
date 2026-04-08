@@ -54,6 +54,10 @@ export class UserManagementComponent implements OnInit {
   signingCompletedStatus: Record<number, { success?: string; error?: string }> =
     {};
 
+  // Certificate email
+  certEmailLoading = false;
+  certEmailStatus: Record<number, { success?: string; error?: string }> = {};
+
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
@@ -284,6 +288,30 @@ export class UserManagementComponent implements OnInit {
         };
         this.signingCompletedLoading = false;
         console.error("Error sending signing completed email:", err);
+      },
+    });
+  }
+
+  sendCertEmail(userId: number): void {
+    this.certEmailLoading = true;
+    this.certEmailStatus[userId] = {};
+
+    this.userService.sendCertificateEmail(userId).subscribe({
+      next: (response: any) => {
+        this.certEmailStatus[userId] = {
+          success: response?.message || "ใบรับรองอิเล็กทรอนิกส์ส่งสำเร็จ!",
+        };
+        this.certEmailLoading = false;
+        setTimeout(() => {
+          delete this.certEmailStatus[userId];
+        }, 3000);
+      },
+      error: (err: any) => {
+        this.certEmailStatus[userId] = {
+          error: err?.error?.message || "ส่งใบรับรองอิเล็กทรอนิกส์ไม่สำเร็จ",
+        };
+        this.certEmailLoading = false;
+        console.error("Error sending certificate email:", err);
       },
     });
   }
