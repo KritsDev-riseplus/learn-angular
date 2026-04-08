@@ -42,6 +42,13 @@ export class UserManagementComponent implements OnInit {
   appConfirmEmailStatus: Record<number, { success?: string; error?: string }> =
     {};
 
+  // Signature status email
+  signatureStatusLoading = false;
+  signatureStatusEmailStatus: Record<
+    number,
+    { success?: string; error?: string }
+  > = {};
+
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
@@ -223,6 +230,30 @@ export class UserManagementComponent implements OnInit {
         };
         this.appConfirmEmailLoading = false;
         console.error("Error sending application confirmation email:", err);
+      },
+    });
+  }
+
+  sendSignatureStatusEmail(userId: number): void {
+    this.signatureStatusLoading = true;
+    this.signatureStatusEmailStatus[userId] = {};
+
+    this.userService.sendSignatureStatusEmail(userId).subscribe({
+      next: (response: any) => {
+        this.signatureStatusEmailStatus[userId] = {
+          success: response?.message || "Signature status email sent!",
+        };
+        this.signatureStatusLoading = false;
+        setTimeout(() => {
+          delete this.signatureStatusEmailStatus[userId];
+        }, 3000);
+      },
+      error: (err: any) => {
+        this.signatureStatusEmailStatus[userId] = {
+          error: err?.error?.message || "Failed to send signature status email",
+        };
+        this.signatureStatusLoading = false;
+        console.error("Error sending signature status email:", err);
       },
     });
   }

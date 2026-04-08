@@ -79,4 +79,11 @@ export class UserService {
       {},
     );
   }
+
+  sendSignatureStatusEmail(userId: number): Observable<any> {
+    return this.http.post<any>(
+      `${this.USER_ENDPOINT}/${userId}/signature-status-email`,
+      {},
+    );
+  }
 }

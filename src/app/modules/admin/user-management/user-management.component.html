@@ -72,6 +72,23 @@
             class="error-inline"
             >{{ appConfirmEmailStatus[user.id].error }}</span
           >
+          <button
+            class="btn-signature-status"
+            (click)="sendSignatureStatusEmail(user.id)"
+            [disabled]="signatureStatusLoading"
+          >
+            📊 แจ้งสถานะลงนาม
+          </button>
+          <span
+            *ngIf="signatureStatusEmailStatus[user.id]?.success"
+            class="success-inline"
+            >{{ signatureStatusEmailStatus[user.id].success }}</span
+          >
+          <span
+            *ngIf="signatureStatusEmailStatus[user.id]?.error"
+            class="error-inline"
+            >{{ signatureStatusEmailStatus[user.id].error }}</span
+          >
           <button class="btn-edit" (click)="openEditDialog(user)">Edit</button>
           <button class="btn-delete" (click)="deleteUser(user.id)">
             Delete
