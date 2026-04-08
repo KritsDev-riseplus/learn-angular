@@ -24,6 +24,20 @@ export interface UpdateUserRequest {
   roleName?: string;
 }
 
+export interface SignerDTO {
+  name: string;
+  status: string;
+}
+
+export interface SignatureStatusRequest {
+  applicationId: string;
+  certType: string;
+  companyName: string;
+  companyRegNo: string;
+  signatureStatus: string;
+  signers: SignerDTO[];
+}
+
 @Injectable({
   providedIn: "root",
 })
@@ -83,6 +97,13 @@ export class UserService {
   sendSignatureStatusEmail(userId: number): Observable<any> {
     return this.http.post<any>(
       `${this.USER_ENDPOINT}/${userId}/signature-status-email`,
+      {},
+    );
+  }
+
+  sendSigningCompletedEmail(userId: number): Observable<any> {
+    return this.http.post<any>(
+      `${this.USER_ENDPOINT}/${userId}/signing-completed-email`,
       {},
     );
   }

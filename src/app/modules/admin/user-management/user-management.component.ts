@@ -49,6 +49,11 @@ export class UserManagementComponent implements OnInit {
     { success?: string; error?: string }
   > = {};
 
+  // Signing completed email
+  signingCompletedLoading = false;
+  signingCompletedStatus: Record<number, { success?: string; error?: string }> =
+    {};
+
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
@@ -254,6 +259,31 @@ export class UserManagementComponent implements OnInit {
         };
         this.signatureStatusLoading = false;
         console.error("Error sending signature status email:", err);
+      },
+    });
+  }
+
+  sendSigningCompletedEmail(userId: number): void {
+    this.signingCompletedLoading = true;
+    this.signingCompletedStatus[userId] = {};
+
+    this.userService.sendSigningCompletedEmail(userId).subscribe({
+      next: (response: any) => {
+        this.signingCompletedStatus[userId] = {
+          success: response?.message || "Signing completed email sent!",
+        };
+        this.signingCompletedLoading = false;
+        setTimeout(() => {
+          delete this.signingCompletedStatus[userId];
+        }, 3000);
+      },
+      error: (err: any) => {
+        this.signingCompletedStatus[userId] = {
+          error:
+            err?.error?.message || "Failed to send signing completed email",
+        };
+        this.signingCompletedLoading = false;
+        console.error("Error sending signing completed email:", err);
       },
     });
   }

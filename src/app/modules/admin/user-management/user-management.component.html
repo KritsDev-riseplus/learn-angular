@@ -89,6 +89,23 @@
             class="error-inline"
             >{{ signatureStatusEmailStatus[user.id].error }}</span
           >
+          <button
+            class="btn-signing-completed"
+            (click)="sendSigningCompletedEmail(user.id)"
+            [disabled]="signingCompletedLoading"
+          >
+            ✅ ลงนามสำเร็จ
+          </button>
+          <span
+            *ngIf="signingCompletedStatus[user.id]?.success"
+            class="success-inline"
+            >{{ signingCompletedStatus[user.id].success }}</span
+          >
+          <span
+            *ngIf="signingCompletedStatus[user.id]?.error"
+            class="error-inline"
+            >{{ signingCompletedStatus[user.id].error }}</span
+          >
           <button class="btn-edit" (click)="openEditDialog(user)">Edit</button>
           <button class="btn-delete" (click)="deleteUser(user.id)">
             Delete
