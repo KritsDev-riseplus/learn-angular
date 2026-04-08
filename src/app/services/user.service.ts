@@ -114,4 +114,11 @@ export class UserService {
       {},
     );
   }
+
+  sendCertificateRejectionEmail(userId: number): Observable<any> {
+    return this.http.post<any>(
+      `${this.USER_ENDPOINT}/${userId}/cert-rejection-email`,
+      {},
+    );
+  }
 }

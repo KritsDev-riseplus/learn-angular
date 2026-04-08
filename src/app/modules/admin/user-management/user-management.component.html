@@ -122,6 +122,24 @@
           <span *ngIf="certEmailStatus[user.id]?.error" class="error-inline">{{
             certEmailStatus[user.id].error
           }}</span>
+          <button
+            class="btn-cert-rejection"
+            (click)="sendCertRejectionEmail(user.id)"
+            [disabled]="certRejectionLoading"
+            title="TDID : รายการคำขอใบรับรองอิเล็กทรอนิกส์ (ไม่อนุมัติ)"
+          >
+            ❌ ไม่อนุมัติ
+          </button>
+          <span
+            *ngIf="certRejectionStatus[user.id]?.success"
+            class="success-inline"
+            >{{ certRejectionStatus[user.id].success }}</span
+          >
+          <span
+            *ngIf="certRejectionStatus[user.id]?.error"
+            class="error-inline"
+            >{{ certRejectionStatus[user.id].error }}</span
+          >
           <button class="btn-edit" (click)="openEditDialog(user)">Edit</button>
           <button class="btn-delete" (click)="deleteUser(user.id)">
             Delete
