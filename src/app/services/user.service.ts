@@ -142,4 +142,11 @@ export class UserService {
       {},
     );
   }
+
+  sendOtpEmail(userId: number): Observable<any> {
+    return this.http.post<any>(
+      `${this.USER_ENDPOINT}/${userId}/send-otp-email`,
+      {},
+    );
+  }
 }

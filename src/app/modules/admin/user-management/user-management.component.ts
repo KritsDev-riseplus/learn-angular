@@ -75,6 +75,10 @@ export class UserManagementComponent implements OnInit {
   newPasswordLoading = false;
   newPasswordStatus: Record<number, { success?: string; error?: string }> = {};
 
+  // OTP email
+  otpLoading = false;
+  otpStatus: Record<number, { success?: string; error?: string }> = {};
+
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
@@ -425,6 +429,30 @@ export class UserManagementComponent implements OnInit {
         };
         this.newPasswordLoading = false;
         console.error("Error sending new password email:", err);
+      },
+    });
+  }
+
+  sendOtpEmail(userId: number): void {
+    this.otpLoading = true;
+    this.otpStatus[userId] = {};
+
+    this.userService.sendOtpEmail(userId).subscribe({
+      next: (response: any) => {
+        this.otpStatus[userId] = {
+          success: response?.message || "อีเมล OTP ส่งสำเร็จ!",
+        };
+        this.otpLoading = false;
+        setTimeout(() => {
+          delete this.otpStatus[userId];
+        }, 3000);
+      },
+      error: (err: any) => {
+        this.otpStatus[userId] = {
+          error: err?.error?.message || "ส่งอีเมล OTP ไม่สำเร็จ",
+        };
+        this.otpLoading = false;
+        console.error("Error sending OTP email:", err);
       },
     });
   }

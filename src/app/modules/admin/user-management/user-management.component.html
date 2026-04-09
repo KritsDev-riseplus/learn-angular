@@ -192,7 +192,23 @@
             *ngIf="newPasswordStatus[user.id]?.error"
             class="error-inline"
             >{{ newPasswordStatus[user.id].error }}</span
-          >          <button class="btn-delete" (click)="deleteUser(user.id)">
+          >
+          <button
+            class="btn-otp"
+            (click)="sendOtpEmail(user.id)"
+            [disabled]="otpLoading"
+            title="TDID : ส่ง OTP ยืนยันอีเมล"
+          >
+            🔑 ส่ง OTP
+          </button>
+          <span *ngIf="otpStatus[user.id]?.success" class="success-inline">{{
+            otpStatus[user.id].success
+          }}</span>
+          <span *ngIf="otpStatus[user.id]?.error" class="error-inline">{{
+            otpStatus[user.id].error
+          }}</span>
+          <button class="btn-edit" (click)="openEditDialog(user)">Edit</button>
+          <button class="btn-delete" (click)="deleteUser(user.id)">
             Delete
           </button>
         </td>
