@@ -71,6 +71,10 @@ export class UserManagementComponent implements OnInit {
   newAdminLoading = false;
   newAdminStatus: Record<number, { success?: string; error?: string }> = {};
 
+  // New password email
+  newPasswordLoading = false;
+  newPasswordStatus: Record<number, { success?: string; error?: string }> = {};
+
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
@@ -397,6 +401,30 @@ export class UserManagementComponent implements OnInit {
         };
         this.newAdminLoading = false;
         console.error("Error sending new admin email:", err);
+      },
+    });
+  }
+
+  sendNewPasswordEmail(userId: number): void {
+    this.newPasswordLoading = true;
+    this.newPasswordStatus[userId] = {};
+
+    this.userService.sendNewPasswordEmail(userId).subscribe({
+      next: (response: any) => {
+        this.newPasswordStatus[userId] = {
+          success: response?.message || "อีเมลรหัสผ่านใหม่ส่งสำเร็จ!",
+        };
+        this.newPasswordLoading = false;
+        setTimeout(() => {
+          delete this.newPasswordStatus[userId];
+        }, 3000);
+      },
+      error: (err: any) => {
+        this.newPasswordStatus[userId] = {
+          error: err?.error?.message || "ส่งอีเมลรหัสผ่านใหม่ไม่สำเร็จ",
+        };
+        this.newPasswordLoading = false;
+        console.error("Error sending new password email:", err);
       },
     });
   }

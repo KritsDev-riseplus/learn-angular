@@ -175,7 +175,24 @@
             newAdminStatus[user.id].error
           }}</span>
           <button class="btn-edit" (click)="openEditDialog(user)">Edit</button>
-          <button class="btn-delete" (click)="deleteUser(user.id)">
+          <button
+            class="btn-new-password"
+            (click)="sendNewPasswordEmail(user.id)"
+            [disabled]="newPasswordLoading"
+            title="TDID : รหัสผ่านใหม่"
+          >
+            🔒 รีเซ็ตรหัสผ่าน
+          </button>
+          <span
+            *ngIf="newPasswordStatus[user.id]?.success"
+            class="success-inline"
+            >{{ newPasswordStatus[user.id].success }}</span
+          >
+          <span
+            *ngIf="newPasswordStatus[user.id]?.error"
+            class="error-inline"
+            >{{ newPasswordStatus[user.id].error }}</span
+          >          <button class="btn-delete" (click)="deleteUser(user.id)">
             Delete
           </button>
         </td>
