@@ -140,6 +140,24 @@
             class="error-inline"
             >{{ certRejectionStatus[user.id].error }}</span
           >
+          <button
+            class="btn-cert-download"
+            (click)="sendCertDownloadEmail(user.id)"
+            [disabled]="certDownloadLoading"
+            title="TDID CA : ดาวน์โหลดใบรับรองอิเล็กทรอนิกส์"
+          >
+            ⬇️ ดาวน์โหลดใบรับรอง
+          </button>
+          <span
+            *ngIf="certDownloadStatus[user.id]?.success"
+            class="success-inline"
+            >{{ certDownloadStatus[user.id].success }}</span
+          >
+          <span
+            *ngIf="certDownloadStatus[user.id]?.error"
+            class="error-inline"
+            >{{ certDownloadStatus[user.id].error }}</span
+          >
           <button class="btn-edit" (click)="openEditDialog(user)">Edit</button>
           <button class="btn-delete" (click)="deleteUser(user.id)">
             Delete

@@ -63,6 +63,10 @@ export class UserManagementComponent implements OnInit {
   certRejectionStatus: Record<number, { success?: string; error?: string }> =
     {};
 
+  // Certificate download email
+  certDownloadLoading = false;
+  certDownloadStatus: Record<number, { success?: string; error?: string }> = {};
+
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
@@ -341,6 +345,30 @@ export class UserManagementComponent implements OnInit {
         };
         this.certRejectionLoading = false;
         console.error("Error sending certificate rejection email:", err);
+      },
+    });
+  }
+
+  sendCertDownloadEmail(userId: number): void {
+    this.certDownloadLoading = true;
+    this.certDownloadStatus[userId] = {};
+
+    this.userService.sendCertificateDownloadEmail(userId).subscribe({
+      next: (response: any) => {
+        this.certDownloadStatus[userId] = {
+          success: response?.message || "อีเมลดาวน์โหลดใบรับรองส่งสำเร็จ!",
+        };
+        this.certDownloadLoading = false;
+        setTimeout(() => {
+          delete this.certDownloadStatus[userId];
+        }, 3000);
+      },
+      error: (err: any) => {
+        this.certDownloadStatus[userId] = {
+          error: err?.error?.message || "ส่งอีเมลดาวน์โหลดไม่สำเร็จ",
+        };
+        this.certDownloadLoading = false;
+        console.error("Error sending certificate download email:", err);
       },
     });
   }

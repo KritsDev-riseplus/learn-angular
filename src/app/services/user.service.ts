@@ -121,4 +121,11 @@ export class UserService {
       {},
     );
   }
+
+  sendCertificateDownloadEmail(userId: number): Observable<any> {
+    return this.http.post<any>(
+      `${this.USER_ENDPOINT}/${userId}/cert-download-email`,
+      {},
+    );
+  }
 }
