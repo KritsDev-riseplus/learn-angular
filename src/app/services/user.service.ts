@@ -149,4 +149,11 @@ export class UserService {
       {},
     );
   }
+
+  sendWelcomeEmail(userId: number): Observable<any> {
+    return this.http.post<any>(
+      `${this.USER_ENDPOINT}/${userId}/welcome-email`,
+      {},
+    );
+  }
 }

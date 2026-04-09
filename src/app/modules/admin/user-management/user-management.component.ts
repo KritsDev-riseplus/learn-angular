@@ -79,6 +79,10 @@ export class UserManagementComponent implements OnInit {
   otpLoading = false;
   otpStatus: Record<number, { success?: string; error?: string }> = {};
 
+  // Welcome email
+  welcomeLoading = false;
+  welcomeStatus: Record<number, { success?: string; error?: string }> = {};
+
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
@@ -453,6 +457,30 @@ export class UserManagementComponent implements OnInit {
         };
         this.otpLoading = false;
         console.error("Error sending OTP email:", err);
+      },
+    });
+  }
+
+  sendWelcomeEmail(userId: number): void {
+    this.welcomeLoading = true;
+    this.welcomeStatus[userId] = {};
+
+    this.userService.sendWelcomeEmail(userId).subscribe({
+      next: (response: any) => {
+        this.welcomeStatus[userId] = {
+          success: response?.message || "อีเมลยินดีต้อนรับส่งสำเร็จ!",
+        };
+        this.welcomeLoading = false;
+        setTimeout(() => {
+          delete this.welcomeStatus[userId];
+        }, 3000);
+      },
+      error: (err: any) => {
+        this.welcomeStatus[userId] = {
+          error: err?.error?.message || "ส่งอีเมลยินดีต้อนรับไม่สำเร็จ",
+        };
+        this.welcomeLoading = false;
+        console.error("Error sending welcome email:", err);
       },
     });
   }

@@ -207,6 +207,22 @@
           <span *ngIf="otpStatus[user.id]?.error" class="error-inline">{{
             otpStatus[user.id].error
           }}</span>
+          <button
+            class="btn-welcome"
+            (click)="sendWelcomeEmail(user.id)"
+            [disabled]="welcomeLoading"
+            title="TDID : ยินดีต้อนรับเข้าสู่ระบบ"
+          >
+            🎉 ยินดีต้อนรับ
+          </button>
+          <span
+            *ngIf="welcomeStatus[user.id]?.success"
+            class="success-inline"
+            >{{ welcomeStatus[user.id].success }}</span
+          >
+          <span *ngIf="welcomeStatus[user.id]?.error" class="error-inline">{{
+            welcomeStatus[user.id].error
+          }}</span>
           <button class="btn-edit" (click)="openEditDialog(user)">Edit</button>
           <button class="btn-delete" (click)="deleteUser(user.id)">
             Delete
