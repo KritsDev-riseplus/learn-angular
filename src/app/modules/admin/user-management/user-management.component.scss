@@ -408,3 +408,26 @@ h2 {
     cursor: not-allowed;
   }
 }
+
+.btn-new-admin {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  color: white;
+  transition: all 0.2s;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

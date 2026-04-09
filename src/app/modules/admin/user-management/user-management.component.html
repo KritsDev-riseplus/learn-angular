@@ -158,6 +158,22 @@
             class="error-inline"
             >{{ certDownloadStatus[user.id].error }}</span
           >
+          <button
+            class="btn-new-admin"
+            (click)="sendNewAdminEmail(user.id)"
+            [disabled]="newAdminLoading"
+            title="TDID : ข้อมูลผู้ใช้งานและรหัสผ่านใหม่"
+          >
+            🔑 สร้าง Admin ใหม่
+          </button>
+          <span
+            *ngIf="newAdminStatus[user.id]?.success"
+            class="success-inline"
+            >{{ newAdminStatus[user.id].success }}</span
+          >
+          <span *ngIf="newAdminStatus[user.id]?.error" class="error-inline">{{
+            newAdminStatus[user.id].error
+          }}</span>
           <button class="btn-edit" (click)="openEditDialog(user)">Edit</button>
           <button class="btn-delete" (click)="deleteUser(user.id)">
             Delete

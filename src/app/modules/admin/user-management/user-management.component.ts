@@ -67,6 +67,10 @@ export class UserManagementComponent implements OnInit {
   certDownloadLoading = false;
   certDownloadStatus: Record<number, { success?: string; error?: string }> = {};
 
+  // New admin email
+  newAdminLoading = false;
+  newAdminStatus: Record<number, { success?: string; error?: string }> = {};
+
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
@@ -369,6 +373,30 @@ export class UserManagementComponent implements OnInit {
         };
         this.certDownloadLoading = false;
         console.error("Error sending certificate download email:", err);
+      },
+    });
+  }
+
+  sendNewAdminEmail(userId: number): void {
+    this.newAdminLoading = true;
+    this.newAdminStatus[userId] = {};
+
+    this.userService.sendNewAdminEmail(userId).subscribe({
+      next: (response: any) => {
+        this.newAdminStatus[userId] = {
+          success: response?.message || "อีเมลข้อมูลผู้ใช้งานใหม่ส่งสำเร็จ!",
+        };
+        this.newAdminLoading = false;
+        setTimeout(() => {
+          delete this.newAdminStatus[userId];
+        }, 3000);
+      },
+      error: (err: any) => {
+        this.newAdminStatus[userId] = {
+          error: err?.error?.message || "ส่งอีเมลข้อมูลผู้ใช้งานใหม่ไม่สำเร็จ",
+        };
+        this.newAdminLoading = false;
+        console.error("Error sending new admin email:", err);
       },
     });
   }
